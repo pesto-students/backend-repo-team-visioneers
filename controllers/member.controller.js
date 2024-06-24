@@ -694,8 +694,9 @@ exports.getAllTasksByUserId = async (req, res) => {
 
         // Fetch active workspaces where the user is an active member
         const workspaces = await Workspace.find({
-            "members.user": userId,
-            "members.isActive": true,
+            members: {
+                $elemMatch: { user: userId, isActive: true }
+            },
             isActive: true
         }).select('_id');
 
